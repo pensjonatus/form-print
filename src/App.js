@@ -63,7 +63,11 @@ const initialQuestions = [
 function PrintButton({ sheetRef }) {
   return (
     <ReactToPrint
-      trigger={() => <button>Wydrukuj</button>}
+      trigger={() => (
+        <div className={styles.buttonWrapper}>
+          <button className={styles.printButton}>Wydrukuj</button>
+        </div>
+      )}
       content={() => sheetRef.current}
     />
   );
@@ -75,7 +79,7 @@ function App() {
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>
-        <h1>Zbuduj formularz </h1>
+        <h1>Karta odpowiedzi</h1>
       </header>
       <main className={styles.main}>
         <PrintButton sheetRef={sheetRef} />
