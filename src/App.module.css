@@ -1,0 +1,16 @@
+.wrapper {
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+.header {
+  max-width: 600px;
+  margin: auto;
+  padding: 65px 0;
+}
+
+.main {
+  max-width: 90vw;
+  margin: auto;
+  padding: 32px;
+}
