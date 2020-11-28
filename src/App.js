@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styles from './App.module.css';
 import ExamSheet from './components/examSheet';
 import qt from './questionTypes';
+import ReactToPrint from 'react-to-print';
 
 const initialQuestions = [
   {
@@ -59,18 +60,29 @@ const initialQuestions = [
   },
 ];
 
+function PrintButton({ sheetRef }) {
+  return (
+    <ReactToPrint
+      trigger={() => <button>Wydrukuj</button>}
+      content={() => sheetRef.current}
+    />
+  );
+}
+
 function App() {
   const [questions, setQuestions] = useState(initialQuestions);
+  const sheetRef = useRef();
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>
         <h1>Zbuduj formularz </h1>
       </header>
       <main className={styles.main}>
-        <section>
-          <h2>Podgląd formularza</h2>
+        <PrintButton sheetRef={sheetRef} />
+        <div ref={sheetRef}>
           <ExamSheet questions={questions} setQuestions={setQuestions} />
-        </section>
+        </div>
+        <PrintButton sheetRef={sheetRef} />
       </main>
     </div>
   );
