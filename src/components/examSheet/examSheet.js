@@ -8,28 +8,25 @@ function getLetterAtIndex(index) {
 
 function DescriptiveQuestion({ question, index }) {
   return (
-    <div className={styles.descriptive} key={index}>
-      <div className={styles.sectionHeader}>WYPEŁNIA EGZAMINATOR</div>
-      <table>
-        <thead>
-          <tr>
-            <th colSpan="2">Zad. {index + 1}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {question.criteria.map((criterion, key) => (
-            <tr className={cx(styles.teacherRow, styles.row)} key={key}>
-              <th>{criterion}</th>
-              <td />
-            </tr>
-          ))}
-          <tr>
-            <th>RAZEM</th>
+    <table key={index}>
+      <thead>
+        <tr>
+          <th colSpan="2">Zad. {index + 1}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {question.criteria.map((criterion, key) => (
+          <tr className={cx(styles.teacherRow, styles.row)} key={key}>
+            <th>{criterion}</th>
             <td />
           </tr>
-        </tbody>
-      </table>
-    </div>
+        ))}
+        <tr>
+          <th>RAZEM</th>
+          <td />
+        </tr>
+      </tbody>
+    </table>
   );
 }
 
@@ -119,6 +116,8 @@ function BoxFill({ label, numberOfBoxes }) {
 }
 
 export default function ExamSheet({ questions }) {
+  const studentQuestions = questions.filter((q) => q.type !== qt.descriptive);
+  const teacherQuestions = questions.filter((q) => q.type === qt.descriptive);
   return (
     <div className={styles.sheetWrapper}>
       <div className={styles.sheetTitle}>
@@ -133,11 +132,23 @@ export default function ExamSheet({ questions }) {
         <div className={styles.sticker}>Miejsce na naklejkę z nr PESEL</div>
       </div>
       <div className={styles.questions}>
-        <div className={styles.sectionHeader}>WYPEŁNIA ZDAJĄCY</div>
-        {questions &&
-          questions.map((question, key) => (
-            <Question question={question} index={key} />
-          ))}
+        <div>
+          <div className={styles.sectionHeader}>WYPEŁNIA ZDAJĄCY</div>
+          {studentQuestions &&
+            studentQuestions.map((question, key) => (
+              <Question question={question} index={key} />
+            ))}
+        </div>
+        <div className={styles.descriptive}>
+          <div className={styles.sectionHeader}>WYPEŁNIA NAUCZYCIEL</div>
+          {teacherQuestions &&
+            teacherQuestions.map((question, key) => (
+              <Question
+                question={question}
+                index={key + studentQuestions.length}
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
