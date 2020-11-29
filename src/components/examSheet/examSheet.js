@@ -129,7 +129,7 @@ function TypeSelect({ selected }) {
   );
 }
 
-function FieldControl({ question, propName, setQuestions }) {
+function FieldControl({ question, propName }) {
   const initialValue = question[propName];
   const [value, setValue] = useState(initialValue);
 
