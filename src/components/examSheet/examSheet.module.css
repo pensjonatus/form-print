@@ -86,6 +86,20 @@ thead {
   text-align: left;
 }
 
+.editable {
+  border: 1px dashed gray;
+  break-inside: avoid;
+}
+
+.editor {
+  padding: 6px 0;
+}
+
+.editor label > span {
+  display: inline-block;
+  margin-right: 3px;
+}
+
 @media print {
   .sheetWrapper {
     border: none;
@@ -108,5 +122,13 @@ thead {
 
   .sticker {
     padding: 12pt;
+  }
+
+  .editable {
+    border: none;
+  }
+
+  .editor {
+    display: none;
   }
 }

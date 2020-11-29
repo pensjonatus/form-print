@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styles from './examSheet.module.css';
 import cx from 'classnames';
 import qt from '../../questionTypes';
@@ -115,7 +116,73 @@ function BoxFill({ label, numberOfBoxes }) {
   );
 }
 
-export default function ExamSheet({ questions }) {
+function TypeSelect({ selected }) {
+  return (
+    <label>
+      <span>typ:</span>
+      <select defaultValue={selected}>
+        {Object.keys(qt).map((questionType, i) => (
+          <option key={i}>{qt[questionType]}</option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function FieldControl({ question, propName }) {
+  const initialValue = question[propName];
+  const [value, setValue] = useState(initialValue);
+  useEffect(
+    function () {
+      question[propName] = value;
+    },
+    [value, propName, question]
+  );
+  let control = null;
+  if (propName === 'type') {
+    control = (
+      <label>
+        <span>typ:</span>
+        <select value={value} onChange={(e) => setValue(e.target.value)}>
+          {Object.keys(qt).map((questionType, i) => (
+            <option key={i}>{qt[questionType]}</option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
+  if (!isNaN(value)) {
+    control = (
+      <label>
+        <input type="number" step="1" value={value} />
+      </label>
+    );
+  }
+  return (
+    <div className={styles.questionProp}>
+      <div style={{ color: 'gray', fontSize: '60%' }}>
+        {propName}: {value}
+      </div>
+      {control}
+    </div>
+  );
+}
+
+function QuestionEditor({ question, children, setQuestions }) {
+  return (
+    <div className={styles.editable}>
+      <div className={styles.editor}>
+        {Object.keys(question).map((propName, key) => (
+          <FieldControl question={question} propName={propName} key={key} />
+        ))}
+      </div>
+      <div>{children}</div>
+    </div>
+  );
+}
+
+export default function ExamSheet({ questions, setQuestions }) {
   const studentQuestions = questions.filter((q) => q.type !== qt.descriptive);
   const teacherQuestions = questions.filter((q) => q.type === qt.descriptive);
   return (
@@ -136,17 +203,30 @@ export default function ExamSheet({ questions }) {
           <div className={styles.sectionHeader}>WYPEŁNIA ZDAJĄCY</div>
           {studentQuestions &&
             studentQuestions.map((question, key) => (
-              <Question question={question} index={key} />
+              <QuestionEditor
+                question={question}
+                key={key}
+                setQuestions={setQuestions}
+              >
+                <Question question={question} index={key} key={key} />
+              </QuestionEditor>
             ))}
         </div>
         <div className={styles.descriptive}>
           <div className={styles.sectionHeader}>WYPEŁNIA NAUCZYCIEL</div>
           {teacherQuestions &&
             teacherQuestions.map((question, key) => (
-              <Question
+              <QuestionEditor
                 question={question}
-                index={key + studentQuestions.length}
-              />
+                key={key}
+                setQuestions={setQuestions}
+              >
+                <Question
+                  question={question}
+                  index={key + studentQuestions.length}
+                  key={key}
+                />
+              </QuestionEditor>
             ))}
         </div>
       </div>

@@ -6,50 +6,60 @@ import ReactToPrint from 'react-to-print';
 
 const initialQuestions = [
   {
+    id: 'reardon342',
     type: qt.trueFalse,
     questions: 5,
   },
   {
+    id: 'mcmillan5423',
     type: qt.multiple,
     questions: 4,
     choices: 5,
   },
   {
+    id: 'papa9542',
     type: qt.multiple,
     questions: 6,
     choices: 3,
   },
   {
+    id: 'slime237',
     type: qt.multiple,
     questions: 4,
     choices: 6,
   },
   {
+    id: 'majestic12',
     type: qt.multiple,
     questions: 3,
     choices: 3,
   },
   {
+    id: 'bluebook1',
     type: qt.multiple,
     questions: 5,
     choices: 4,
   },
   {
+    id: 'thelema',
     type: qt.multiple,
     questions: 3,
     choices: 5,
   },
   {
+    id: 'creditCardNumber',
     type: qt.multiple,
     questions: 5,
     choices: 3,
   },
   {
+    id: 'bezpiecznik4',
     type: qt.multiple,
     questions: 5,
     choices: 3,
   },
   {
+    id: 'poetry3',
     type: qt.descriptive,
     criteria: [
       'Treść',
