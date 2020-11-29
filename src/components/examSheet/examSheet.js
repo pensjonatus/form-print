@@ -129,15 +129,17 @@ function TypeSelect({ selected }) {
   );
 }
 
-function FieldControl({ question, propName }) {
+function FieldControl({ question, propName, setQuestions }) {
   const initialValue = question[propName];
   const [value, setValue] = useState(initialValue);
+
   useEffect(
     function () {
       question[propName] = value;
     },
     [value, propName, question]
   );
+
   let control = null;
   if (propName === 'type') {
     control = (
@@ -155,7 +157,12 @@ function FieldControl({ question, propName }) {
   if (!isNaN(value)) {
     control = (
       <label>
-        <input type="number" step="1" value={value} />
+        <input
+          type="number"
+          step="1"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
       </label>
     );
   }
@@ -174,7 +181,12 @@ function QuestionEditor({ question, children, setQuestions }) {
     <div className={styles.editable}>
       <div className={styles.editor}>
         {Object.keys(question).map((propName, key) => (
-          <FieldControl question={question} propName={propName} key={key} />
+          <FieldControl
+            question={question}
+            propName={propName}
+            key={key}
+            setQuestions={setQuestions}
+          />
         ))}
       </div>
       <div>{children}</div>
