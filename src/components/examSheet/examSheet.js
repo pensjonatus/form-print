@@ -116,19 +116,6 @@ function BoxFill({ label, numberOfBoxes }) {
   );
 }
 
-function TypeSelect({ selected }) {
-  return (
-    <label>
-      <span>typ:</span>
-      <select defaultValue={selected}>
-        {Object.keys(qt).map((questionType, i) => (
-          <option key={i}>{qt[questionType]}</option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
 function FieldControl({ question, propName }) {
   const initialValue = question[propName];
   const [value, setValue] = useState(initialValue);
